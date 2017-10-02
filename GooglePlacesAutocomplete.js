@@ -673,6 +673,7 @@ const GooglePlacesAutocomplete = React.createClass({
   },
 
   _renderRow(rowData = {}, sectionID, rowID) {
+    const secondaryText = (rowData && rowData.structured_formatting) && rowData.structured_formatting.secondary_text;
     return (
       <ScrollView
         style={{ flex: 1 }}
@@ -696,6 +697,7 @@ const GooglePlacesAutocomplete = React.createClass({
               {this._renderRowData(rowData)}
               {this._renderSelectIcon(rowData)}
             </View>
+            <Text numberOfLines={1} style={{ color: "#999999", fontSize: 12, fontFamily: "Lato-Regular", lineHeight: 16.0}}>{secondaryText}</Text>
           </TouchableOpacity>
 
         </View>
