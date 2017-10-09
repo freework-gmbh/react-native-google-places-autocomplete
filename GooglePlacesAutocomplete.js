@@ -673,6 +673,7 @@ const GooglePlacesAutocomplete = React.createClass({
   },
 
   _renderRow(rowData = {}, sectionID, rowID) {
+    const secondaryText = (rowData && rowData.structured_formatting) && rowData.structured_formatting.secondary_text;
     return (
       <ScrollView
         style={{ flex: 1 }}
@@ -682,7 +683,7 @@ const GooglePlacesAutocomplete = React.createClass({
         showsVerticalScrollIndicator={false}>
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <TouchableOpacity
-            style={{ flex: 0.95 }}
+            style={{ flex: 1}}
             onPress={() => this._onPress(rowData)}
             underlayColor={this.props.listUnderlayColor || '#c8c7cc'}>
             <View
@@ -696,6 +697,7 @@ const GooglePlacesAutocomplete = React.createClass({
               {this._renderRowData(rowData)}
               {this._renderSelectIcon(rowData)}
             </View>
+            <Text numberOfLines={1} style={{ color: "#999999", fontSize: 12, fontFamily: "Lato-Regular", lineHeight: 16.0}}>{secondaryText}</Text>
           </TouchableOpacity>
 
         </View>
@@ -734,7 +736,7 @@ const GooglePlacesAutocomplete = React.createClass({
   _renderSelectIcon(rowData) {
 
     return(
-    <TouchableOpacity onPress={() => this._onPress(rowData)} style={{ flex: 0.1, paddingLeft: 20, justifyContent: 'flex-end'}}>
+    <TouchableOpacity onPress={() => this._onPress(rowData)} style={{ justifyContent: 'flex-end'}}>
       {this.props.selectIcon}
     </TouchableOpacity>);
   },
