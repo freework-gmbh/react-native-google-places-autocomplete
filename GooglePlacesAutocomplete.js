@@ -84,6 +84,7 @@ const defaultStyles = {
     fontFamily: 'Lato-Regular',
     top: 6,
     maxWidth: 300,
+    minHeight:18,
   },
   rowContainer: {
     flex: 1,
