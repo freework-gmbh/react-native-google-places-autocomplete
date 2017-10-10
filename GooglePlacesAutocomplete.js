@@ -11,7 +11,7 @@ import {
   Platform,
   ActivityIndicator,
   PixelRatio,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import Qs from 'qs';
 import debounce from 'lodash.debounce';
@@ -23,11 +23,7 @@ const defaultStyles = {
   textInputContainer: {
     height: 38,
     backgroundColor: 'white',
-    borderRadius: 0,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    marginLeft: 0,
-    paddingLeft: 0,
+    marginBottom: 25,
   },
   textInput: {
     backgroundColor: '#FFFFFF',
@@ -35,6 +31,8 @@ const defaultStyles = {
     fontSize: 15,
     flex: 1,
     fontFamily: 'Lato-Regular',
+    lineHeight: 22.0,
+	  letterSpacing: -0.24,
   },
   poweredContainer: {
     justifyContent: 'flex-end',
@@ -54,7 +52,6 @@ const defaultStyles = {
     paddingTop: 0,
     padding: 0,
     alignItems: 'center',
-    height: 22,
     flex: 0.2,
   },
   selectIcon: {
@@ -63,8 +60,6 @@ const defaultStyles = {
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#c8c7cc',
-    marginBottom: 25,
-    marginTop: 25,
   },
   description: {
     flex: 1,
@@ -82,6 +77,25 @@ const defaultStyles = {
   },
   androidLoader: {
     marginRight: -15,
+  },
+  secondaryText: {
+    color: '#999999',
+    fontSize: 12,
+    fontFamily: 'Lato-Regular',
+    top: 6,
+    maxWidth: 300,
+  },
+  rowContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 72,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  selectionIcon: {
+    justifyContent: 'center',
+    height: 82,
+    top: 8,
   },
 };
 
@@ -217,12 +231,10 @@ const GooglePlacesAutocomplete = React.createClass({
       res = [];
     }
 
-    res = res.map((place) => {
-      return {
-        ...place,
-        isPredefinedPlace: true,
-      };
-    });
+    res = res.map(place => ({
+      ...place,
+      isPredefinedPlace: true,
+    }));
 
     return [...res, ...results];
   },
@@ -394,7 +406,9 @@ const GooglePlacesAutocomplete = React.createClass({
             }
 
             if (!this.props.onNotFound)
-              console.warn(`google places autocomplete: ${  responseJSON.status}`);
+              console.warn(
+                `google places autocomplete: ${responseJSON.status}`,
+              );
             else this.props.onNotFound(responseJSON);
           }
         } else {
@@ -409,12 +423,13 @@ const GooglePlacesAutocomplete = React.createClass({
       };
       request.open(
         'GET',
-        'https://maps.googleapis.com/maps/api/place/details/json?' +
-          Qs.stringify({
+        `https://maps.googleapis.com/maps/api/place/details/json?${Qs.stringify(
+          {
             key: this.props.query.key,
             placeid: rowData.place_id,
             language: this.props.query.language,
-          }),
+          },
+        )}`,
       );
       request.send();
     } else if (rowData.isCurrentLocation === true) {
@@ -462,7 +477,7 @@ const GooglePlacesAutocomplete = React.createClass({
   _filterResultsByTypes(responseJSON, types) {
     if (types.length === 0) return responseJSON.results;
 
-    let results = [];
+    const results = [];
     for (let i = 0; i < responseJSON.results.length; i++) {
       let found = false;
       for (let j = 0; j < types.length; j++) {
@@ -519,7 +534,9 @@ const GooglePlacesAutocomplete = React.createClass({
             }
           }
           if (typeof responseJSON.error_message !== 'undefined') {
-            console.warn(`google places autocomplete: ${  responseJSON.error_message}`);
+            console.warn(
+              `google places autocomplete: ${responseJSON.error_message}`,
+            );
           }
         } else {
           // console.warn("google places autocomplete: request could not be completed or has been aborted");
@@ -529,21 +546,21 @@ const GooglePlacesAutocomplete = React.createClass({
       let url = '';
       if (this.props.nearbyPlacesAPI === 'GoogleReverseGeocoding') {
         // your key must be allowed to use Google Maps Geocoding API
-        url =
-          'https://maps.googleapis.com/maps/api/geocode/json?' +
-          Qs.stringify({
-            latlng: `${latitude  },${  longitude}`,
+        url = `https://maps.googleapis.com/maps/api/geocode/json?${Qs.stringify(
+          {
+            latlng: `${latitude},${longitude}`,
             key: this.props.query.key,
             ...this.props.GoogleReverseGeocodingQuery,
-          });
+          },
+        )}`;
       } else {
-        url =
-          'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
-          Qs.stringify({
-            location: `${latitude  },${  longitude}`,
+        url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?${Qs.stringify(
+          {
+            location: `${latitude},${longitude}`,
             key: this.props.query.key,
             ...this.props.GooglePlacesSearchQuery,
-          });
+          },
+        )}`;
       }
 
       request.open('GET', url);
@@ -583,7 +600,9 @@ const GooglePlacesAutocomplete = React.createClass({
             }
           }
           if (typeof responseJSON.error_message !== 'undefined') {
-            console.warn(`google places autocomplete: ${  responseJSON.error_message}`);
+            console.warn(
+              `google places autocomplete: ${responseJSON.error_message}`,
+            );
           }
         } else {
           // console.warn("google places autocomplete: request could not be completed or has been aborted");
@@ -591,10 +610,9 @@ const GooglePlacesAutocomplete = React.createClass({
       };
       request.open(
         'GET',
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=' +
-          encodeURIComponent(text) +
-          '&' +
-          Qs.stringify(this.props.query),
+        `https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=${encodeURIComponent(
+          text,
+        )}&${Qs.stringify(this.props.query)}`,
       );
       request.send();
     } else {
@@ -627,7 +645,7 @@ const GooglePlacesAutocomplete = React.createClass({
   },
 
   _getRowLoader() {
-    return <ActivityIndicator animating={true} size="small" />;
+    return <ActivityIndicator animating size="small" />;
   },
 
   _renderRowData(rowData) {
@@ -673,7 +691,10 @@ const GooglePlacesAutocomplete = React.createClass({
   },
 
   _renderRow(rowData = {}, sectionID, rowID) {
-    const secondaryText = (rowData && rowData.structured_formatting) && rowData.structured_formatting.secondary_text;
+    const secondaryText =
+      rowData &&
+      rowData.structured_formatting &&
+      rowData.structured_formatting.secondary_text;
     return (
       <ScrollView
         style={{ flex: 1 }}
@@ -681,9 +702,9 @@ const GooglePlacesAutocomplete = React.createClass({
         keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
+        <View style={defaultStyles.rowContainer}>
           <TouchableOpacity
-            style={{ flex: 1}}
+            style={{ flex: 1 }}
             onPress={() => this._onPress(rowData)}
             underlayColor={this.props.listUnderlayColor || '#c8c7cc'}>
             <View
@@ -697,12 +718,11 @@ const GooglePlacesAutocomplete = React.createClass({
               {this._renderRowData(rowData)}
               {this._renderSelectIcon(rowData)}
             </View>
-            <Text numberOfLines={1} style={{ color: "#999999", fontSize: 12, fontFamily: "Lato-Regular", lineHeight: 16.0}}>{secondaryText}</Text>
+            <Text numberOfLines={1} style={defaultStyles.secondaryText}>
+              {secondaryText}
+            </Text>
           </TouchableOpacity>
-
         </View>
-
-
       </ScrollView>
     );
   },
@@ -734,11 +754,13 @@ const GooglePlacesAutocomplete = React.createClass({
   },
 
   _renderSelectIcon(rowData) {
-
-    return(
-    <TouchableOpacity onPress={() => this._onPress(rowData)} style={{ justifyContent: 'flex-end'}}>
-      {this.props.selectIcon}
-    </TouchableOpacity>);
+    return (
+      <TouchableOpacity
+        onPress={() => this._onPress(rowData)}
+        style={defaultStyles.selectionIcon}>
+        {this.props.selectIcon}
+      </TouchableOpacity>
+    );
   },
 
   _shouldShowPoweredLogo() {
@@ -826,12 +848,14 @@ const GooglePlacesAutocomplete = React.createClass({
             placeholder={this.props.placeholder}
             placeholderTextColor={this.props.placeholderTextColor}
             onFocus={
-              onFocus
-                ? () => {
-                    this._onFocus();
-                    onFocus();
-                  }
-                : this._onFocus
+              onFocus ? (
+                () => {
+                  this._onFocus();
+                  onFocus();
+                }
+              ) : (
+                this._onFocus
+              )
             }
             clearButtonMode="while-editing"
             underlineColorAndroid={this.props.underlineColorAndroid}
