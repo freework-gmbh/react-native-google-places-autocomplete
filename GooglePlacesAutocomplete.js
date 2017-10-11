@@ -42,10 +42,10 @@ const defaultStyles = {
     flexDirection: 'row',
     paddingLeft: 0,
     paddingBottom: 0,
-    paddingTop: 0,
+    paddingTop: 1,
     padding: 0,
     alignItems: 'center',
-    flex: 0.2,
+    flex: 0.3,
   },
   selectIcon: {
     flex: 1,
