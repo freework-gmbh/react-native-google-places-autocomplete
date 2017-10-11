@@ -21,18 +21,11 @@ const defaultStyles = {
     flex: 1,
   },
   textInputContainer: {
-    height: 38,
     backgroundColor: 'white',
-    marginBottom: 25,
   },
   textInput: {
     backgroundColor: '#FFFFFF',
     borderRadius: 5,
-    fontSize: 15,
-    flex: 1,
-    fontFamily: 'Lato-Regular',
-    lineHeight: 22.0,
-	  letterSpacing: -0.24,
   },
   poweredContainer: {
     justifyContent: 'flex-end',
@@ -838,6 +831,7 @@ const GooglePlacesAutocomplete = React.createClass({
             this.props.styles.textInputContainer,
           ]}>
           {this._renderLeftButton()}
+          <Text style={this.props.styles.labelStyle}>{this.props.label}</Text>
           <TextInput
             {...userProps}
             ref="textInput"
