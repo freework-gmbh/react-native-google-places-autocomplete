@@ -54,15 +54,6 @@ const defaultStyles = {
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#c8c7cc',
   },
-  description: {
-    flex: 1,
-    letterSpacing: -0.24,
-    textAlign: 'left',
-    fontFamily: 'Lato-Regular',
-    fontSize: 17,
-    marginLeft: 0,
-    paddingLeft: 0,
-  },
   loader: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -70,14 +61,6 @@ const defaultStyles = {
   },
   androidLoader: {
     marginRight: -15,
-  },
-  secondaryText: {
-    color: '#999999',
-    fontSize: 12,
-    fontFamily: 'Lato-Regular',
-    top: 6,
-    maxWidth: 300,
-    minHeight:18,
   },
   rowContainer: {
     flex: 1,
@@ -712,7 +695,7 @@ const GooglePlacesAutocomplete = React.createClass({
               {this._renderRowData(rowData)}
               {this._renderSelectIcon(rowData)}
             </View>
-            <Text numberOfLines={1} style={defaultStyles.secondaryText}>
+            <Text numberOfLines={1} style={this.props.styles.secondaryText}>
               {secondaryText}
             </Text>
           </TouchableOpacity>
