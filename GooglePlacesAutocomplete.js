@@ -21,18 +21,11 @@ const defaultStyles = {
     flex: 1,
   },
   textInputContainer: {
-    height: 38,
     backgroundColor: 'white',
-    marginBottom: 25,
   },
   textInput: {
     backgroundColor: '#FFFFFF',
     borderRadius: 5,
-    fontSize: 15,
-    flex: 1,
-    fontFamily: 'Lato-Regular',
-    lineHeight: 22.0,
-	  letterSpacing: -0.24,
   },
   poweredContainer: {
     justifyContent: 'flex-end',
@@ -49,10 +42,10 @@ const defaultStyles = {
     flexDirection: 'row',
     paddingLeft: 0,
     paddingBottom: 0,
-    paddingTop: 0,
+    paddingTop: 1,
     padding: 0,
     alignItems: 'center',
-    flex: 0.2,
+    flex: 0.3,
   },
   selectIcon: {
     flex: 1,
@@ -61,15 +54,6 @@ const defaultStyles = {
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#c8c7cc',
   },
-  description: {
-    flex: 1,
-    letterSpacing: -0.24,
-    textAlign: 'left',
-    fontFamily: 'Lato-Regular',
-    fontSize: 17,
-    marginLeft: 0,
-    paddingLeft: 0,
-  },
   loader: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -77,14 +61,6 @@ const defaultStyles = {
   },
   androidLoader: {
     marginRight: -15,
-  },
-  secondaryText: {
-    color: '#999999',
-    fontSize: 12,
-    fontFamily: 'Lato-Regular',
-    top: 6,
-    maxWidth: 300,
-    minHeight:18,
   },
   rowContainer: {
     flex: 1,
@@ -719,7 +695,7 @@ const GooglePlacesAutocomplete = React.createClass({
               {this._renderRowData(rowData)}
               {this._renderSelectIcon(rowData)}
             </View>
-            <Text numberOfLines={1} style={defaultStyles.secondaryText}>
+            <Text numberOfLines={1} style={this.props.styles.secondaryText}>
               {secondaryText}
             </Text>
           </TouchableOpacity>
@@ -838,6 +814,7 @@ const GooglePlacesAutocomplete = React.createClass({
             this.props.styles.textInputContainer,
           ]}>
           {this._renderLeftButton()}
+          <Text style={this.props.styles.labelStyle}>{this.props.label}</Text>
           <TextInput
             {...userProps}
             ref="textInput"
