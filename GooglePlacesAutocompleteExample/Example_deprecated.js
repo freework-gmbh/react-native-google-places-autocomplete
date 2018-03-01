@@ -38,13 +38,13 @@ var GooglePlacesAutocomplete = require('react-native-google-places-autocomplete'
   }
 });
 
-var Example = React.createClass({
-  render: function() {
+class Example extends React.Component {
+  render() {
     return (
       <GooglePlacesAutocomplete />
     );
   }
-});
+}
 
 
 module.exports = Example;

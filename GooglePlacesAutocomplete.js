@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import createReactClass from 'create-react-class';
 import {
   TextInput,
   View,
@@ -76,7 +77,9 @@ const defaultStyles = {
   },
 };
 
-const GooglePlacesAutocomplete = React.createClass({
+const GooglePlacesAutocomplete = createReactClass({
+  displayName: 'GooglePlacesAutocomplete',
+
   propTypes: {
     placeholder: React.PropTypes.string,
     placeholderTextColor: React.PropTypes.string,
@@ -319,6 +322,7 @@ const GooglePlacesAutocomplete = React.createClass({
       }
     }
   },
+
   _disableRowLoaders() {
     if (this.isMounted()) {
       for (let i = 0; i < this._results.length; i++) {
@@ -333,6 +337,7 @@ const GooglePlacesAutocomplete = React.createClass({
       });
     }
   },
+
   _onPress(rowData) {
     if (
       rowData.isPredefinedPlace !== true &&
@@ -436,6 +441,7 @@ const GooglePlacesAutocomplete = React.createClass({
       this.props.onPress(predefinedPlace, predefinedPlace);
     }
   },
+
   _results: [],
   _requests: [],
 
@@ -804,6 +810,7 @@ const GooglePlacesAutocomplete = React.createClass({
 
     return null;
   },
+
   render() {
     const { onFocus, ...userProps } = this.props.textInputProps;
     return (
@@ -853,13 +860,16 @@ const GooglePlacesAutocomplete = React.createClass({
 
 // this function is still present in the library to be retrocompatible with version < 1.1.0
 const create = function create(options = {}) {
-  return React.createClass({
-    render() {
-      return (
-        <GooglePlacesAutocomplete ref="GooglePlacesAutocomplete" {...options} />
-      );
-    },
-  });
+  return (
+    // this function is still present in the library to be retrocompatible with version < 1.1.0
+    class extends React.Component {
+      render() {
+        return (
+          <GooglePlacesAutocomplete ref="GooglePlacesAutocomplete" {...options} />
+        );
+      }
+    }
+  );
 };
 
 module.exports = {

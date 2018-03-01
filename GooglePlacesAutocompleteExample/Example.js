@@ -12,7 +12,7 @@ var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplet
 const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 const workPlace = {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
-var Example = React.createClass({
+class Example extends React.Component {
   render() {
     return (
       <GooglePlacesAutocomplete
@@ -63,6 +63,6 @@ var Example = React.createClass({
       />
     );
   }
-});
+}
 
 module.exports = Example;
