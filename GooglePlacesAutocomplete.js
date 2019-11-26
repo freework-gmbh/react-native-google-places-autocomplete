@@ -732,7 +732,6 @@ const GooglePlacesAutocomplete = createReactClass({
   },
 
   _shouldShowPoweredLogo() {
-    debugger;
     if (
       !this.props.enablePoweredByContainer ||
       (!this.state.dataSource || this.state.dataSource.length == 0)
