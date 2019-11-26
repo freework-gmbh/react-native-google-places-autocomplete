@@ -770,6 +770,8 @@ const GooglePlacesAutocomplete = createReactClass({
     if (!this._shouldShowPoweredLogo()) {
       return null;
     }
+
+    return null;
   },
 
   _getFlatList() {
